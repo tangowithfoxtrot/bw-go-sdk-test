@@ -1,8 +1,7 @@
 #!/bin/sh
 set -e
-set -x
 
-ENV_FILE="${ENV_FILE:-.env}"
+ENV_FILE="${ENV_FILE:-$PWD/.env}"
 
 configure() {
     if [ ! -f "$ENV_FILE" ]; then
@@ -29,9 +28,15 @@ EOF
         if grep -q 'your-access-token-here' "$ENV_FILE"; then
             return 1  # Needs editing
         fi
+
+        set -a
+        . $ENV_FILE # source .env file
+        set +a
+
         return 0  # Already configured
     fi
     return 1  # Needs editing
+
 }
 
 interactive() {
