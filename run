@@ -244,7 +244,7 @@ clone_sdk() {
 }
 
 OS="$(if [ "$(uname)" = "Darwin" ]; then echo "apple-darwin"; else echo "unknown-linux-musl"; fi)"
-ARCH="$(uname -m)"
+ARCH="$(uname -m | sed 's/arm64/aarch64/')" # correct for the libbitwarden_c artifact name
 
 cyan() {
   printf "\033[36m$1\033[0m\n"
